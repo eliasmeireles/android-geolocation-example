@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.challenge.us.geolocator">
+    package="com.challenge.us.geolocation">
 
     <application
-        android:name=".app.GeoLocatorApplication"
+        android:name="com.challenge.us.geolocation.app.GeoLocatorApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,7 +13,7 @@
         android:theme="@style/Theme.GeoLocator">
 
         <activity
-            android:name=".modules.splash.SplashActivity"
+            android:name="com.challenge.us.geolocation.modules.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>

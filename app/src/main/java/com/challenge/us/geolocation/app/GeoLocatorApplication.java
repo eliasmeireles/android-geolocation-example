@@ -1,4 +1,4 @@
-package com.challenge.us.geolocator.app;
+package com.challenge.us.geolocation.app;
 
 import android.app.Application;
 

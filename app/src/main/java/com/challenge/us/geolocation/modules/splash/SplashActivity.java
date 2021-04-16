@@ -1,4 +1,4 @@
-package com.challenge.us.geolocator.modules.splash;
+package com.challenge.us.geolocation.modules.splash;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,7 +8,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
-import com.challenge.us.geolocator.R;
+import com.challenge.us.geolocation.R;
 
 public class SplashActivity extends AppCompatActivity {
 

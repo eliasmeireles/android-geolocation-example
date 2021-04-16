@@ -1,4 +1,4 @@
-package com.challenge.us.geolocator;
+package com.challenge.us.geolocation;
 
 import android.content.Context;
 
