@@ -5,7 +5,7 @@ import android.app.Application;
 import dagger.hilt.android.HiltAndroidApp;
 
 @HiltAndroidApp
-public class WhereIsBaseApplication extends Application {
+public class GeoLocatorApplication extends Application {
 
     @Override
     public void onCreate() {
