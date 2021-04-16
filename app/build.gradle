@@ -1,0 +1,54 @@
+plugins {
+    id 'com.android.application'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "com.challenge.us.geolocator"
+        minSdkVersion 19
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    def dependencies = rootProject.ext.implementationProject
+    def dependenciesProcessor = rootProject.ext.implementationsProcessor
+    def dependenciesTest = rootProject.ext.implementationTestProject
+
+    implementation dependencies.appCompatVersion
+    implementation dependencies.androidMaterialVersion
+    implementation dependencies.constraintLayoutVersion
+    implementation dependencies.gmsPlayServiceMpas
+    implementation dependencies.daggerHilt
+
+    annotationProcessor dependenciesProcessor.daggerHiltProcessor
+
+    testImplementation dependenciesTest.junit
+    testImplementation dependenciesTest.testExtJunit
+    testImplementation dependenciesTest.hamcrest
+    testImplementation dependenciesTest.mockitoCore
+
+    androidTestImplementation dependenciesTest.runer
+    androidTestImplementation dependenciesTest.testRules
+    androidTestImplementation dependenciesTest.espressoCore
+    androidTestImplementation dependenciesTest.espressoContrib
+}
