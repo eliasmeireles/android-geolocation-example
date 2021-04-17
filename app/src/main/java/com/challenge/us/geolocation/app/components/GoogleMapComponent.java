@@ -22,6 +22,7 @@ public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCa
     private final static String TAG = GoogleMapComponent.class.getSimpleName();
 
     private GoogleMap googleMap;
+    private MapListener listener;
 
     public GoogleMapComponent(@NonNull Context context) {
         super(context);
@@ -39,14 +40,21 @@ public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCa
     }
 
     private void onCreate(Context context) {
+        setDefaultMapListener();
         inflate(context, R.layout.component_google_map, this);
+    }
+
+    private void setDefaultMapListener() {
+        this.listener = latLng -> Log.i(TAG, latLng.toString());
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
-        LatLng sydney = new LatLng(-33.852, 151.211);
-        setGeolocation(sydney, "Marker in Sydney");
+    }
+
+    public void setListener(MapListener listener) {
+        this.listener = listener;
     }
 
     public void cleaMarkers() {
@@ -62,6 +70,10 @@ public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCa
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
     }
 
+    public LatLng getCurrentLatLan() {
+        return googleMap.getCameraPosition().target;
+    }
+
     public void start(FragmentManager fragmentManager) {
         SupportMapFragment mapFragment = (SupportMapFragment) fragmentManager
                 .findFragmentById(R.id.component_google_map_fragment_container);
@@ -70,5 +82,13 @@ public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCa
         } else {
             Log.e(TAG, "Failed to initialize the map!");
         }
+    }
+
+    public void handleCurrentGeolocation() {
+        listener.currentGeoPosition(getCurrentLatLan());
+    }
+
+    public interface MapListener {
+        void currentGeoPosition(LatLng latLng);
     }
 }
