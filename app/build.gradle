@@ -14,7 +14,9 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "${applicationId}.runner.CustomTestRunner"
+
     }
 
     buildTypes {
@@ -23,16 +25,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
+hilt {
+    enableTransformForLocalTests = true
+}
+
 dependencies {
     def dependencies = rootProject.ext.implementationProject
     def dependenciesProcessor = rootProject.ext.implementationsProcessor
-    def dependenciesTest = rootProject.ext.implementationTestProject
 
     implementation dependencies.appCompatVersion
     implementation dependencies.androidMaterialVersion
@@ -42,12 +48,21 @@ dependencies {
 
     annotationProcessor dependenciesProcessor.daggerHiltProcessor
 
+
+    // Tests implementations starting from here
+
+    def dependenciesTest = rootProject.ext.implementationTestProject
+
     testImplementation dependenciesTest.junit
     testImplementation dependenciesTest.testExtJunit
     testImplementation dependenciesTest.hamcrest
     testImplementation dependenciesTest.mockitoCore
 
+    androidTestAnnotationProcessor dependenciesProcessor.daggerHiltProcessor
+
+    androidTestImplementation dependenciesTest.daggerHiltTest
     androidTestImplementation dependenciesTest.runer
+    androidTestImplementation dependenciesTest.mockitoCore
     androidTestImplementation dependenciesTest.testRules
     androidTestImplementation dependenciesTest.espressoCore
     androidTestImplementation dependenciesTest.espressoContrib

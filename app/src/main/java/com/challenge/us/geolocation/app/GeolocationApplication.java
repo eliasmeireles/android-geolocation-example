@@ -1,11 +1,9 @@
 package com.challenge.us.geolocation.app;
 
-import android.app.Application;
-
 import dagger.hilt.android.HiltAndroidApp;
 
 @HiltAndroidApp
-public class GeoLocatorApplication extends Application {
+public class GeolocationApplication extends BaseApplication {
 
     @Override
     public void onCreate() {

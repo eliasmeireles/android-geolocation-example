@@ -3,14 +3,14 @@
     package="com.challenge.us.geolocation">
 
     <application
-        android:name="com.challenge.us.geolocation.app.GeoLocatorApplication"
+        android:name=".app.GeolocationApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.GeoLocator">
+        android:theme="@style/Theme.Geolocation">
 
         <activity
             android:name="com.challenge.us.geolocation.modules.splash.SplashActivity"
