@@ -1,10 +1,10 @@
-package com.challenge.us.geolocation.modules.splash;
+package com.challenge.us.geolocation.app.modules.splash;
 
 import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.challenge.us.geolocation.modules.home.HomeActivity;
+import com.challenge.us.geolocation.app.modules.home.HomeActivity;
 
 public class SplashRouterImpl implements SplashRouter {
 

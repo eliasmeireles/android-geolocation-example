@@ -12,8 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Geolocation">
 
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
         <activity
-            android:name="com.challenge.us.geolocation.modules.splash.SplashActivity"
+            android:name=".app.modules.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
@@ -23,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".modules.home.HomeActivity"
+            android:name=".app.modules.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarAppTheme" />
     </application>

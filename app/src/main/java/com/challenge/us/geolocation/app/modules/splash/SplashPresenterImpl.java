@@ -1,6 +1,8 @@
-package com.challenge.us.geolocation.modules.splash;
+package com.challenge.us.geolocation.app.modules.splash;
 
 import android.os.Handler;
+
+import com.challenge.us.geolocation.app.modules.home.HomeActivity;
 
 public class SplashPresenterImpl implements SplashPresenter {
 
@@ -22,7 +24,7 @@ public class SplashPresenterImpl implements SplashPresenter {
 
     /**
      * Após o tempo em millisecond definido em {@link #SPLASH_ACTIVITY_DURATION},
-     * {@link SplashActivity} será finalizada e navegando para {@link com.challenge.us.geolocation.modules.home.HomeActivity}
+     * {@link SplashActivity} será finalizada e navegando para {@link HomeActivity}
      */
     private void navigateHome() {
         new Handler(splashView.getActivity().getMainLooper())

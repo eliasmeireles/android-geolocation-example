@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.secrets_gradle_plugin' version '0.5'
 }
 
 android {
@@ -44,10 +45,10 @@ dependencies {
     implementation dependencies.androidMaterialVersion
     implementation dependencies.constraintLayoutVersion
     implementation dependencies.gmsPlayServiceMpas
+    implementation dependencies.gsmLocation
     implementation dependencies.daggerHilt
 
     annotationProcessor dependenciesProcessor.daggerHiltProcessor
-
 
     // Tests implementations starting from here
 

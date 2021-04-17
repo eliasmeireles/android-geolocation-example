@@ -1,4 +1,4 @@
-package com.challenge.us.geolocation.modules.splash;
+package com.challenge.us.geolocation.app.modules.splash;
 
 import android.content.Intent;
 
