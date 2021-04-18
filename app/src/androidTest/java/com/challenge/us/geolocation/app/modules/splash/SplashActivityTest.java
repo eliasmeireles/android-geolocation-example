@@ -6,6 +6,7 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 
 import com.challenge.us.geolocation.R;
+import com.challenge.us.geolocation.app.BaseActivityTest;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -34,10 +35,7 @@ import static junit.framework.TestCase.assertTrue;
 @LargeTest
 @UninstallModules(SplashModule.class)
 @HiltAndroidTest
-public class SplashActivityTest {
-
-    @Rule
-    public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
+public class SplashActivityTest extends BaseActivityTest<SplashActivity> {
 
     private final SplashRouter splashRouter = new SplashRouterFake();
 
@@ -54,13 +52,9 @@ public class SplashActivityTest {
         }
     }
 
-    final public ActivityTestRule<SplashActivity> activityTestRule =
-            new ActivityTestRule<>(SplashActivity.class, true, false);
-
-    @Before
-    public void tearsUp() {
-        hiltRule.inject();
-        activityTestRule.launchActivity(new Intent());
+    @Override
+    public Class<SplashActivity> getActivity() {
+        return SplashActivity.class;
     }
 
     @Test
