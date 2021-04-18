@@ -24,6 +24,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static junit.framework.TestCase.assertTrue;
 
 /**
  * Validation that the {@link SplashActivity} is successful started
@@ -63,8 +64,7 @@ public class SplashActivityTest {
     }
 
     @Test
-    public void mustToStartSplashActivityWithFakeRouterAndPresenter() {
-        onView(withId(R.id.activity_splash_text_view))
-                .check(matches(isDisplayed()));
+    public void mustToInjectAPresenterAsAnInstanceOfSplashPresenterFake() {
+        assertTrue(activityTestRule.getActivity().splashPresenter instanceof SplashPresenterFake);
     }
 }
