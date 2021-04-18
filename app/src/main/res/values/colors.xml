@@ -7,4 +7,8 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="splash_screen_background">#0E0D0D</color>
+
+    <item name="input_hint_color" type="color">#9c9c9c</item>
+    <item name="input_text_color" type="color">#f9683a</item>
+    <item name="spinner_bottom_view" type="color">#727272</item>
 </resources>

@@ -3,6 +3,13 @@
     <dimen name="splash_text_size">32sp</dimen>
     <dimen name="space_text">4dp</dimen>
     <dimen name="alert_dialogue_icon_size">55dp</dimen>
+    <dimen name="home_button_size">45dp</dimen>
     <dimen name="default_margin_padding">16dp</dimen>
+    <dimen name="custom_view_padding">8dp</dimen>
     <dimen name="text_size_great">18sp</dimen>
+    <dimen name="map_view_bottom_margin">35dp</dimen>
+    <dimen name="default_corner_radius">18dp</dimen>
+    <dimen name="button_corner_radius">5dp</dimen>
+    <dimen name="inputs_textSize">16sp</dimen>
+
 </resources>

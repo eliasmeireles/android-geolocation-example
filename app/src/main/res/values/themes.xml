@@ -19,6 +19,7 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryVariant">@color/accentColor</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="android:editTextStyle">@style/editTextMaterial</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowDisablePreview">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>

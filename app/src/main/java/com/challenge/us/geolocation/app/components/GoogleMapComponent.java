@@ -107,6 +107,7 @@ public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCa
     public void setMyLocationEnabled(boolean enable) {
         googleMap.setMyLocationEnabled(enable);
         View locationButton = ((View) findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+        ((View) findViewById(Integer.parseInt("3")).getParent()).findViewById(Integer.parseInt("4")).setVisibility(GONE);
         RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
