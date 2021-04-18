@@ -18,6 +18,8 @@ public class MapOptionsComponent extends ConstraintLayout {
 
     public interface MapOptionDelegate {
         void searByGeolocation(String value);
+
+        void clipCurrentGeolocation();
     }
 
     public MapOptionsComponent(@NonNull Context context) {
@@ -39,6 +41,7 @@ public class MapOptionsComponent extends ConstraintLayout {
         inflate(context, R.layout.component_map_options, this);
         optionsBinding = ComponentMapOptionsBinding.bind(this);
         optionsBinding.inputActionButton.setOnClickListener(v -> delegate.searByGeolocation(optionsBinding.textInputGeolocation.getText().toString()));
+        optionsBinding.textViewCopyMapTarget.setOnClickListener(v -> delegate.clipCurrentGeolocation());
         testing();
     }
 
@@ -47,7 +50,7 @@ public class MapOptionsComponent extends ConstraintLayout {
      */
     @Deprecated
     public void testing() {
-        optionsBinding.textInputGeolocation.setText("Empire State Building: 40.74858577615085, -73.98565618486673");
+        optionsBinding.textInputGeolocation.setText("Empire State Building: 40.748585898093516,-73.98565616458654");
     }
 
     public void setDelegate(MapOptionDelegate delegate) {

@@ -1,7 +1,11 @@
 package com.challenge.us.geolocation.app.modules.home;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -64,8 +68,14 @@ public class HomePresenterImpl implements HomePresenter {
     }
 
     @Override
-    public void deviceLocation(LatLng latLng) {
-        System.out.println(latLng.toString());
+    public void clipCurrentGeolocation() {
+        ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+        LatLng currentLatLan = homeView.homeBinding().googleMapComponent.getCurrentLatLan();
+        String clipValue = currentLatLan.latitude + ", " + currentLatLan.longitude;
+        ClipData clip = ClipData.newPlainText("Map target", clipValue);
+        clipboard.setPrimaryClip(clip);
+
+        Toast.makeText(getActivity(), "Copied to clipboard", Toast.LENGTH_SHORT).show();
     }
 
     @Override

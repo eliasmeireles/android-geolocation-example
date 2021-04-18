@@ -38,11 +38,6 @@ public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCa
     public interface MapListener {
 
         /**
-         * Recebe a localização atual do dispositivo.
-         */
-        void deviceLocation(LatLng latLng);
-
-        /**
          * Chamado quando o {@link GoogleMap} estiver pronto para ser utilizado
          */
         void mapIsReady();
@@ -88,10 +83,6 @@ public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCa
      */
     private void setDefaultMapListener() {
         this.listener = new MapListener() {
-            @Override
-            public void deviceLocation(LatLng latLng) {
-                Log.i(TAG, latLng.toString());
-            }
 
             @Override
             public void mapIsReady() {
