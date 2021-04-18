@@ -1,5 +1,7 @@
 package com.challenge.us.geolocation.app.modules.home;
 
+import com.challenge.us.geolocation.core.permission.location.AccessPermission;
+
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
@@ -10,8 +12,8 @@ import dagger.hilt.android.components.ActivityComponent;
 public class HomeModule {
 
     @Provides
-    public HomePresenter presenter(HomeRouter homeRouter) {
-        return new HomePresenterImpl(homeRouter);
+    public HomePresenter presenter(HomeRouter homeRouter, AccessPermission accessPermission) {
+        return new HomePresenterImpl(homeRouter, accessPermission);
     }
 
     @Provides

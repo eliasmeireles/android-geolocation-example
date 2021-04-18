@@ -2,12 +2,15 @@ package com.challenge.us.geolocation.app.modules.home;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.challenge.us.geolocation.R;
 import com.challenge.us.geolocation.app.components.GoogleMapComponent;
 import com.challenge.us.geolocation.databinding.ActivityHomeBinding;
+import com.google.android.gms.maps.model.LatLng;
 
 import javax.inject.Inject;
 
@@ -18,6 +21,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     @Inject
     HomePresenter presenter;
+
     private ActivityHomeBinding activityHomeBinding;
 
     @Override
@@ -29,20 +33,18 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        presenter.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
     public AppCompatActivity getActivity() {
         return this;
     }
 
     @Override
-    public void setMapListener(GoogleMapComponent.MapListener listener) {
-        activityHomeBinding.googleMapComponent.setListener(listener);
-        activityHomeBinding.googleMapComponent.init(getSupportFragmentManager());
-    }
-
-    @Override
-    @RequiresPermission(anyOf = {"android.permission.ACCESS_COARSE_LOCATION",
-            "android.permission.ACCESS_FINE_LOCATION"})
-    public void setMyLocationEnabled(boolean enabled) {
-        activityHomeBinding.googleMapComponent.setMyLocationEnabled(enabled);
+    public GoogleMapComponent getMapComponent() {
+        return activityHomeBinding.googleMapComponent;
     }
 }

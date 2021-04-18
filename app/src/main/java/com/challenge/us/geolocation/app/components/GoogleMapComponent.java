@@ -1,8 +1,11 @@
 package com.challenge.us.geolocation.app.components;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -97,15 +100,17 @@ public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
+        listener.mapIsReady();
     }
 
-    /**
-     * @param enabled Ativar ou desativar a localização do dispositivo no {@link GoogleMap}
-     */
-    @RequiresPermission(anyOf = {"android.permission.ACCESS_COARSE_LOCATION",
-            "android.permission.ACCESS_FINE_LOCATION"})
-    public void setMyLocationEnabled(boolean enabled) {
-        this.googleMap.setMyLocationEnabled(enabled);
+    @SuppressLint("MissingPermission")
+    public void setMyLocationEnabled(boolean enable) {
+        googleMap.setMyLocationEnabled(enable);
+        View locationButton = ((View) findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+        rlp.setMargins(0, 80, 180, 0);
     }
 
     /**

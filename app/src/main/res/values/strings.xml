@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">Geolocation</string>
+    <string name="ico_location_pointer">Icon of location pointer</string>
+    <string name="access_device_location_msg">We need your permission to access your device\'s location.</string>
+    <string name="access_location_title">Access Location</string>
+    <string name="device_location_label">You are here</string>
+    <string name="device_location_not_available_msg">The location service doesn\'t seem to be available, would you like to check it now?</string>
 </resources>
