@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <com.challenge.us.geolocation.app.components.GoogleMapComponent
-        android:id="@+id/activity_home_google_map_component"
+        android:id="@+id/google_map_component"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
