@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresPermission;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 
@@ -17,12 +18,31 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+/**
+ * <ul>
+ *     <li>Deve-se utilizar o {@link #setListener(MapListener)} para obter dados de interações
+ *     com o {@link GoogleMap}</li>
+ * </ul>
+ **/
 public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCallback {
 
     private final static String TAG = GoogleMapComponent.class.getSimpleName();
 
     private GoogleMap googleMap;
     private MapListener listener;
+
+    public interface MapListener {
+
+        /**
+         * Recebe a localização atual do dispositivo.
+         */
+        void deviceLocation(LatLng latLng);
+
+        /**
+         * Chamado quando o {@link GoogleMap} estiver pronto para ser utilizado
+         */
+        void mapIsReady();
+    }
 
     public GoogleMapComponent(@NonNull Context context) {
         super(context);
@@ -44,37 +64,10 @@ public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCa
         inflate(context, R.layout.component_google_map, this);
     }
 
-    private void setDefaultMapListener() {
-        this.listener = latLng -> Log.i(TAG, latLng.toString());
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        this.googleMap = googleMap;
-    }
-
-    public void setListener(MapListener listener) {
-        this.listener = listener;
-    }
-
-    public void cleaMarkers() {
-        googleMap.clear();
-    }
-
-    public void addMarker(MarkerOptions marker) {
-        googleMap.addMarker(marker);
-    }
-
-    public void setGeolocation(LatLng latLng, String label) {
-        addMarker(new MarkerOptions().position(latLng).title(label));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
-    }
-
-    public LatLng getCurrentLatLan() {
-        return googleMap.getCameraPosition().target;
-    }
-
-    public void start(FragmentManager fragmentManager) {
+    /**
+     * Inicializar o {@link GoogleMap}
+     */
+    public void init(@NonNull FragmentManager fragmentManager) {
         SupportMapFragment mapFragment = (SupportMapFragment) fragmentManager
                 .findFragmentById(R.id.component_google_map_fragment_container);
         if (mapFragment != null) {
@@ -84,11 +77,109 @@ public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCa
         }
     }
 
-    public void handleCurrentGeolocation() {
-        listener.currentGeoPosition(getCurrentLatLan());
+    /**
+     * Inicializa com o {@link #listener} padrão
+     */
+    private void setDefaultMapListener() {
+        this.listener = new MapListener() {
+            @Override
+            public void deviceLocation(LatLng latLng) {
+                Log.i(TAG, latLng.toString());
+            }
+
+            @Override
+            public void mapIsReady() {
+                Log.i(TAG, "GoogleMapsComponent is ready.");
+            }
+        };
     }
 
-    public interface MapListener {
-        void currentGeoPosition(LatLng latLng);
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+    }
+
+    /**
+     * @param enabled Ativar ou desativar a localização do dispositivo no {@link GoogleMap}
+     */
+    @RequiresPermission(anyOf = {"android.permission.ACCESS_COARSE_LOCATION",
+            "android.permission.ACCESS_FINE_LOCATION"})
+    public void setMyLocationEnabled(boolean enabled) {
+        this.googleMap.setMyLocationEnabled(enabled);
+    }
+
+    /**
+     * @param listener <ul>
+     *                 <li>Responsável por obter dados de interações com o {@link GoogleMap}</li>
+     *                 <li>Exemplo do {@link #getDeviceLocation()}</li>
+     *                 </ul>
+     */
+    public void setListener(MapListener listener) {
+        this.listener = listener;
+    }
+
+    /**
+     * <ul>
+     *     <li>Remover todos os {@link MarkerOptions} ativos no {@link GoogleMap}</li>
+     * </ul>
+     */
+    public void cleaMarkers() {
+        googleMap.clear();
+    }
+
+
+    public void addMarker(MarkerOptions marker) {
+        googleMap.addMarker(marker);
+    }
+
+    /**
+     * <ul>
+     *      <li>Limpa toodos o {@link MarkerOptions} atuais do {@link GoogleMap}</li>
+     *      <li>Adicionar o e move o {@link GoogleMap} para a posição do novo {@link MarkerOptions}</li>
+     * </ul>
+     *
+     * @param latLng {@link LatLng}
+     * @param label  Label a ser apresentada no {@link MarkerOptions} <br>
+     */
+    public void setMarkerOption(LatLng latLng, String label) {
+        cleaMarkers();
+        addMarker(new MarkerOptions().position(latLng).title(label));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+    }
+
+    /**
+     * <ul>
+     *      <li>Remove todos os {@link MarkerOptions} atuais do {@link GoogleMap}</li>
+     *      <li>Adicionar o e move o {@link GoogleMap} para a posição do novo {@link MarkerOptions}</li>
+     * </ul>
+     *
+     * @param lat   Latitude
+     * @param lng   Longitude
+     * @param label Label a ser apresentada no {@link MarkerOptions} <br>
+     */
+    public void setMarkerOption(double lat, double lng, String label) {
+        cleaMarkers();
+        LatLng latLng = new LatLng(lat, lng);
+        addMarker(new MarkerOptions().position(latLng).title(label));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+    }
+
+    /**
+     * <li>Retorna a localização em {@link LatLng}, atual do dispositivo.</li>
+     */
+    public LatLng getCurrentLatLan() {
+        return googleMap.getCameraPosition().target;
+    }
+
+    /**
+     * <ul>
+     *     <li>Notifica o {@link #listener} sobre localização em {@link LatLng}, atual do dispositivo.</li>
+     *     <li>Certifique-se de informa um {@link #listener} utilizando {@link #setListener(MapListener)}</li>
+     * </ul>
+     */
+    @RequiresPermission(anyOf = {"android.permission.ACCESS_COARSE_LOCATION",
+            "android.permission.ACCESS_FINE_LOCATION"})
+    public void getDeviceLocation() {
+        listener.deviceLocation(getCurrentLatLan());
     }
 }

@@ -18,10 +18,17 @@ public class HomePresenterImpl implements HomePresenter {
     @Override
     public void bindWith(HomeView homeView) {
         this.homeView = homeView;
+        homeRouter.bindWith(homeView);
+        homeView.setMapListener(this);
     }
 
     @Override
-    public void currentGeoPosition(LatLng latLng) {
+    public void deviceLocation(LatLng latLng) {
         System.out.println(latLng.toString());
+    }
+
+    @Override
+    public void mapIsReady() {
+
     }
 }
