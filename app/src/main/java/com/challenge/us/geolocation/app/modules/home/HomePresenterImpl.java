@@ -45,9 +45,9 @@ public class HomePresenterImpl implements HomePresenter {
     public void bindWith(HomeView homeView) {
         this.homeView = homeView;
         homeRouter.bindWith(homeView);
-        homeView.homeBinding().googleMapComponent.setListener(this);
-        homeView.homeBinding().googleMapComponent.init(getActivity().getSupportFragmentManager());
-        homeView.homeBinding().mapOptionsComponent.setDelegate(this);
+        homeView.googleMapComponent().setListener(this);
+        homeView.googleMapComponent().init(getActivity().getSupportFragmentManager());
+        homeView.mapOptionsComponent().setDelegate(this);
     }
 
     private AppCompatActivity getActivity() {
@@ -70,7 +70,7 @@ public class HomePresenterImpl implements HomePresenter {
     @Override
     public void clipCurrentGeolocation() {
         ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-        LatLng currentLatLan = homeView.homeBinding().googleMapComponent.getCurrentLatLan();
+        LatLng currentLatLan = homeView.googleMapComponent().getCurrentLatLan();
         String clipValue = currentLatLan.latitude + ", " + currentLatLan.longitude;
         ClipData clip = ClipData.newPlainText("Map target", clipValue);
         clipboard.setPrimaryClip(clip);
@@ -95,14 +95,14 @@ public class HomePresenterImpl implements HomePresenter {
     @SuppressLint("MissingPermission")
     private void getDeviceLocation() {
         if (accessPermission.deviceGPSEnable(getActivity())) {
-            homeView.homeBinding().googleMapComponent.setMyLocationEnabled(true);
+            homeView.googleMapComponent().setMyLocationEnabled(true);
             FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
             fusedLocationProviderClient.getLastLocation()
                     .addOnSuccessListener(getActivity(), location -> {
                         if (location != null) {
-                            homeView.homeBinding().googleMapComponent.setMarkerOption(new MarkerData(getActivity().getString(R.string.device_location_label), location.getLatitude(), location.getLongitude()));
+                            homeView.googleMapComponent().setMarkerOption(new MarkerData(getActivity().getString(R.string.device_location_label), location.getLatitude(), location.getLongitude()));
                         } else {
-                            homeView.homeBinding().googleMapComponent.setMarkerOption(new MarkerData(getActivity().getString(R.string.device_location_label), 40.71527999104979, -74.01358634844325));
+                            homeView.googleMapComponent().setMarkerOption(new MarkerData(getActivity().getString(R.string.device_location_label), 40.71527999104979, -74.01358634844325));
                         }
                     });
         } else {
@@ -119,7 +119,7 @@ public class HomePresenterImpl implements HomePresenter {
         KeyBoardUtil.hideKeyBoard(homeView.getActivity());
 
         if (!value.contains(PLACE_GEOLOCATION_SEPARATOR_KEY) || !value.contains(LAT_LNG_SEPARATOR_KEY)) {
-            homeView.homeBinding().mapOptionsComponent.showError(true);
+            homeView.mapOptionsComponent().showError(true);
         } else {
             extractInputValues(value);
         }
@@ -132,11 +132,11 @@ public class HomePresenterImpl implements HomePresenter {
             double latitude = Double.parseDouble(split[1].trim());
             double longitude = Double.parseDouble(split[2].trim());
 
-            homeView.homeBinding().googleMapComponent.setMarkerOption(new MarkerData(locationName, latitude, longitude));
-            homeView.homeBinding().mapOptionsComponent.showError(false);
+            homeView.googleMapComponent().setMarkerOption(new MarkerData(locationName, latitude, longitude));
+            homeView.mapOptionsComponent().showError(false);
         } catch (Exception e) {
             e.printStackTrace();
-            homeView.homeBinding().mapOptionsComponent.showError(true);
+            homeView.mapOptionsComponent().showError(true);
         }
     }
 }
