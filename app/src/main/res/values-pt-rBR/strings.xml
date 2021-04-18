@@ -6,6 +6,6 @@
     <string name="device_location_label">You are here</string>
     <string name="device_location_not_available_msg">The location service doesn\'t seem to be available, would you like to check it now?</string>
     <string name="button_to_search">Button to search a location with the inputed data.</string>
-    <string name="input_geolocation_invalid_data">The inputted data doesn\'t looks like a valid geolocation. Take this as example  \"-19.9316445, 43.9241857\", in order of latitude and longitude.</string>
-    <string name="input_geolocation_hint">Geolocation (-45, 55)</string>
+    <string name="input_geolocation_invalid_data">The inputted data is not valid. Take this as example  \"Belo Horizonte: -19.9316445, 43.9241857\", in order of latitude and longitude.</string>
+    <string name="input_geolocation_hint">Location: Lat,lng</string>
 </resources>

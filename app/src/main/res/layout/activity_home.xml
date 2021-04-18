@@ -15,6 +15,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.challenge.us.geolocation.app.components.MapOptionsComponent
+        android:id="@+id/map_options_component"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

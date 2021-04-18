@@ -16,12 +16,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/text_input_lng"
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/text_input_geolocation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/input_geolocation_hint"
-            android:inputType="numberDecimal|numberSigned" />
+            android:layout_height="match_parent"
+            android:inputType="textCapSentences"
+            android:hint="@string/input_geolocation_hint" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView

@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     }
 
     @Override
-    public GoogleMapComponent getMapComponent() {
-        return activityHomeBinding.googleMapComponent;
+    public ActivityHomeBinding homeBinding() {
+        return activityHomeBinding;
     }
 }

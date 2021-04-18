@@ -9,15 +9,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.challenge.us.geolocation.R;
 import com.challenge.us.geolocation.core.permission.location.AccessPermission;
 import com.challenge.us.geolocation.core.util.DefaultAlertDialogueUtil;
+import com.challenge.us.geolocation.core.util.KeyBoardUtil;
+import com.challenge.us.geolocation.data.model.MarkerData;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
 import static com.challenge.us.geolocation.core.permission.location.AccessPermission.ACCESS_PERMISSION_FINE_LOCATION;
 
 public class HomePresenterImpl implements HomePresenter {
+
+    private final static String PLACE_GEOLOCATION_SEPARATOR_KEY = ":";
+    private final static String LAT_LNG_SEPARATOR_KEY = ",";
 
     private final HomeRouter homeRouter;
     private final AccessPermission accessPermission;
@@ -34,8 +41,9 @@ public class HomePresenterImpl implements HomePresenter {
     public void bindWith(HomeView homeView) {
         this.homeView = homeView;
         homeRouter.bindWith(homeView);
-        homeView.getMapComponent().setListener(this);
-        homeView.getMapComponent().init(getActivity().getSupportFragmentManager());
+        homeView.homeBinding().googleMapComponent.setListener(this);
+        homeView.homeBinding().googleMapComponent.init(getActivity().getSupportFragmentManager());
+        homeView.homeBinding().mapOptionsComponent.setDelegate(this);
     }
 
     private AppCompatActivity getActivity() {
@@ -55,7 +63,6 @@ public class HomePresenterImpl implements HomePresenter {
         }
     }
 
-
     @Override
     public void deviceLocation(LatLng latLng) {
         System.out.println(latLng.toString());
@@ -70,25 +77,56 @@ public class HomePresenterImpl implements HomePresenter {
         }
     }
 
+    @Override
+    public void onMarkerClick(MarkerData markerData) {
+        homeRouter.openMapWith(markerData);
+    }
+
     @SuppressLint("MissingPermission")
     private void getDeviceLocation() {
         if (accessPermission.deviceGPSEnable(getActivity())) {
-            homeView.getMapComponent().setMyLocationEnabled(true);
+            homeView.homeBinding().googleMapComponent.setMyLocationEnabled(true);
             FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
             fusedLocationProviderClient.getLastLocation()
                     .addOnSuccessListener(getActivity(), location -> {
                         if (location != null) {
-                            homeView.getMapComponent()
-                                    .setMarkerOption(new LatLng(location.getLatitude(), location.getLongitude()),
-                                            getActivity().getString(R.string.device_location_label));
+                            homeView.homeBinding().googleMapComponent.setMarkerOption(new MarkerData(getActivity().getString(R.string.device_location_label), location.getLatitude(), location.getLongitude()));
                         } else {
-                            homeView.getMapComponent()
-                                    .setMarkerOption(new LatLng(-19.9243, -43.9351),
-                                            getActivity().getString(R.string.device_location_label));
+                            homeView.homeBinding().googleMapComponent.setMarkerOption(new MarkerData(getActivity().getString(R.string.device_location_label), 40.71527999104979, -74.01358634844325));
                         }
                     });
         } else {
             DefaultAlertDialogueUtil.buildAlertMessageNoGps(getActivity());
+        }
+    }
+
+    @Override
+    public void searByGeolocation(String value) {
+        if (value.trim().isEmpty()) {
+            return;
+        }
+
+        KeyBoardUtil.hideKeyBoard(homeView.getActivity());
+
+        if (!value.contains(PLACE_GEOLOCATION_SEPARATOR_KEY) || !value.contains(LAT_LNG_SEPARATOR_KEY)) {
+            homeView.homeBinding().mapOptionsComponent.showError(true);
+        } else {
+            extractInputValues(value);
+        }
+    }
+
+    private void extractInputValues(String value) {
+        try {
+            String[] split = value.split("[,:]");
+            String locationName = split[0].trim();
+            double latitude = Double.parseDouble(split[1].trim());
+            double longitude = Double.parseDouble(split[2].trim());
+
+            homeView.homeBinding().googleMapComponent.setMarkerOption(new MarkerData(locationName, latitude, longitude));
+            homeView.homeBinding().mapOptionsComponent.showError(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+            homeView.homeBinding().mapOptionsComponent.showError(true);
         }
     }
 }

@@ -9,16 +9,17 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresPermission;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 
 import com.challenge.us.geolocation.R;
+import com.challenge.us.geolocation.data.model.MarkerData;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
@@ -45,6 +46,8 @@ public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCa
          * Chamado quando o {@link GoogleMap} estiver pronto para ser utilizado
          */
         void mapIsReady();
+
+        void onMarkerClick(MarkerData markerData);
     }
 
     public GoogleMapComponent(@NonNull Context context) {
@@ -94,6 +97,11 @@ public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCa
             public void mapIsReady() {
                 Log.i(TAG, "GoogleMapsComponent is ready.");
             }
+
+            @Override
+            public void onMarkerClick(MarkerData markerData) {
+                Log.i(TAG, markerData.toString());
+            }
         };
     }
 
@@ -117,7 +125,7 @@ public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCa
     /**
      * @param listener <ul>
      *                 <li>Responsável por obter dados de interações com o {@link GoogleMap}</li>
-     *                 <li>Exemplo do {@link #getDeviceLocation()}</li>
+     *                 <li>Exemplo do {@link #getCurrentLatLan()}</li>
      *                 </ul>
      */
     public void setListener(MapListener listener) {
@@ -134,8 +142,17 @@ public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCa
     }
 
 
-    public void addMarker(MarkerOptions marker) {
-        googleMap.addMarker(marker);
+    public void addMarker(MarkerData markerData) {
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(new LatLng(markerData.getLat(), markerData.getLng()))
+                .title(markerData.getLocationName());
+
+        Marker marker = googleMap.addMarker(markerOptions);
+        marker.setTag(markerData);
+        googleMap.setOnMarkerClickListener(mrk -> {
+            listener.onMarkerClick((MarkerData) mrk.getTag());
+            return true;
+        });
     }
 
     /**
@@ -144,13 +161,12 @@ public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCa
      *      <li>Adicionar o e move o {@link GoogleMap} para a posição do novo {@link MarkerOptions}</li>
      * </ul>
      *
-     * @param latLng {@link LatLng}
-     * @param label  Label a ser apresentada no {@link MarkerOptions} <br>
+     * @param markerData {@link MarkerData}
      */
-    public void setMarkerOption(LatLng latLng, String label) {
+    public void setMarkerOption(MarkerData markerData) {
         cleaMarkers();
-        addMarker(new MarkerOptions().position(latLng).title(label));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+        addMarker(markerData);
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(markerData.getLat(), markerData.getLng()), 16.0F));
     }
 
     /**
@@ -166,7 +182,7 @@ public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCa
     public void setMarkerOption(double lat, double lng, String label) {
         cleaMarkers();
         LatLng latLng = new LatLng(lat, lng);
-        addMarker(new MarkerOptions().position(latLng).title(label));
+        addMarker(new MarkerData(label, lat, lng));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
     }
 
@@ -175,17 +191,5 @@ public class GoogleMapComponent extends ConstraintLayout implements OnMapReadyCa
      */
     public LatLng getCurrentLatLan() {
         return googleMap.getCameraPosition().target;
-    }
-
-    /**
-     * <ul>
-     *     <li>Notifica o {@link #listener} sobre localização em {@link LatLng}, atual do dispositivo.</li>
-     *     <li>Certifique-se de informa um {@link #listener} utilizando {@link #setListener(MapListener)}</li>
-     * </ul>
-     */
-    @RequiresPermission(anyOf = {"android.permission.ACCESS_COARSE_LOCATION",
-            "android.permission.ACCESS_FINE_LOCATION"})
-    public void getDeviceLocation() {
-        listener.deviceLocation(getCurrentLatLan());
     }
 }
