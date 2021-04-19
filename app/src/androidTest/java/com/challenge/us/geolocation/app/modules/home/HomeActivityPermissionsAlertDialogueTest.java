@@ -1,7 +1,12 @@
 package com.challenge.us.geolocation.app.modules.home;
 
 import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
 
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.filters.LargeTest;
 
 import com.challenge.us.geolocation.R;
@@ -26,13 +31,16 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.challenge.us.geolocation.core.permission.location.AccessPermission.ACCESS_PERMISSION_FINE_LOCATION;
+import static org.hamcrest.Matchers.not;
 
 @LargeTest
 @UninstallModules({AccessPermissionModule.class, HomeModule.class})
 @HiltAndroidTest
-public class HomeActivityTest extends BaseActivityTest<HomeActivity> {
+public class HomeActivityPermissionsAlertDialogueTest extends BaseActivityTest<HomeActivity> {
 
     @Override
     public Class<HomeActivity> getActivity() {
@@ -71,44 +79,36 @@ public class HomeActivityTest extends BaseActivityTest<HomeActivity> {
     }
 
     @Test
-    public void mustToDisplayTheGoogleComponentAtHomeScreenWhenHomeScreenIsSuccessfulCreated() {
-        onView(withId(R.id.activity_home_view_container))
-                .check(matches(isDisplayed()));
-
-        onView(withId(R.id.google_map_component))
+    public void mustToRequestPermissionAlertDialogueWhenPermissionIsNotGranted() {
+        onView(withText(R.string.access_device_location_msg))
                 .check(matches(isDisplayed()));
     }
 
     @Test
-    public void mustToShowErrorMessageWheUserInputANInvalidData() {
-        onView(withId(R.id.text_input_geolocation))
-                .perform(replaceText("invalid data"));
+    public void mustToShowAlertDialogueOfLocationOffWhenDeviceLocationIsNotAvailable() {
+        onView(isRoot()).perform(ViewActions.pressBack());
+        String[] permissions = {};
+        int[] getResults = {PackageManager.PERMISSION_GRANTED};
 
-        onView(withId(R.id.input_action_button))
-                .perform(click());
-
-        onView(withId(R.id.input_alert_error_msg))
+        HomeActivity activity = activityTestRule.getActivity();
+        new Handler(Looper.getMainLooper())
+                .postDelayed(() -> activity.onRequestPermissionsResult(ACCESS_PERMISSION_FINE_LOCATION, permissions, getResults), 50);
+        SystemClock.sleep(102);
+        onView(withText(R.string.device_location_not_available_msg))
                 .check(matches(isDisplayed()));
+
     }
 
-    @Test
-    public void mustToShowToastCopyClipBoardWhenClickToCopyCurrentMapTarget() {
-        onView(withId(R.id.text_view_copy_map_target))
-                .perform(click());
-
-        onView(withText(R.string.copy_map_current_location))
-                .check(matches(isDisplayed()));
-    }
 
     private static class PermissionTest extends AccessPermissionImpl {
         @Override
         public boolean accessLocation(Activity activity) {
-            return true;
+            return false;
         }
 
         @Override
         public boolean deviceGPSEnable(Activity activity) {
-            return true;
+            return false;
         }
     }
 }
