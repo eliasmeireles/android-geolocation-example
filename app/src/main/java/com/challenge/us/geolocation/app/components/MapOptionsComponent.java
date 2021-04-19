@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.viewbinding.BuildConfig;
 
 import com.challenge.us.geolocation.R;
 import com.challenge.us.geolocation.databinding.ComponentMapOptionsBinding;
@@ -42,15 +43,6 @@ public class MapOptionsComponent extends ConstraintLayout {
         optionsBinding = ComponentMapOptionsBinding.bind(this);
         optionsBinding.inputActionButton.setOnClickListener(v -> delegate.searByGeolocation(optionsBinding.textInputGeolocation.getText().toString()));
         optionsBinding.textViewCopyMapTarget.setOnClickListener(v -> delegate.clipCurrentGeolocation());
-        testing();
-    }
-
-    /**
-     * {@link Deprecated} apenas para facilar os tests manuais.
-     */
-    @Deprecated
-    public void testing() {
-        optionsBinding.textInputGeolocation.setText("Empire State Building: 40.748585898093516,-73.98565616458654");
     }
 
     public void setDelegate(MapOptionDelegate delegate) {
