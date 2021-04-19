@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.challenge.us.geolocation.R;
 import com.challenge.us.geolocation.app.components.GoogleMapComponent;
+import com.challenge.us.geolocation.app.components.HomeTutorialComponent;
 import com.challenge.us.geolocation.app.components.MapOptionsComponent;
 import com.challenge.us.geolocation.databinding.ActivityHomeBinding;
 import com.google.android.gms.maps.model.LatLng;
@@ -54,4 +55,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         return activityHomeBinding.mapOptionsComponent;
     }
 
+    @Override
+    public HomeTutorialComponent homeTutorialComponent() {
+        return activityHomeBinding.homeTutorialComponent;
+    }
 }

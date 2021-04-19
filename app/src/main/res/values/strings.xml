@@ -9,4 +9,5 @@
     <string name="input_geolocation_invalid_data">The inputted data is not valid. Take this as example  \"Belo Horizonte: -19.9316445, 43.9241857\", in order of latitude and longitude.</string>
     <string name="input_geolocation_hint">Location: Lat,lng</string>
     <string name="copy_map_current_location">Copy map current location</string>
+    <string name="tutorial_message">Input the name of location, latitude and longitude as this example (Empire State Building: 40.748581712174996, -73.98565618480232). After that, tap in this button to find the location.</string>
 </resources>

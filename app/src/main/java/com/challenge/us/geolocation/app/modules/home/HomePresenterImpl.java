@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +29,9 @@ import static com.challenge.us.geolocation.core.permission.location.AccessPermis
 
 public class HomePresenterImpl implements HomePresenter {
 
+    private final static int TUTORIAL_CURRENT_VERSION = 1;
+    private final static String TUTORIAL_VERSION_KEY = "tutorialVersionKey";
+    private final static String TUTORIAL_SHARED_PREFS = "tutorialSharedPrefs";
     private final static String PLACE_GEOLOCATION_SEPARATOR_KEY = ":";
     private final static String LAT_LNG_SEPARATOR_KEY = ",";
 
@@ -48,6 +53,18 @@ public class HomePresenterImpl implements HomePresenter {
         homeView.googleMapComponent().setListener(this);
         homeView.googleMapComponent().init(getActivity().getSupportFragmentManager());
         homeView.mapOptionsComponent().setDelegate(this);
+        displayTutorial();
+    }
+
+    private void displayTutorial() {
+        SharedPreferences preferences = getActivity().getSharedPreferences(TUTORIAL_SHARED_PREFS, Context.MODE_PRIVATE);
+        if (!preferences.contains(TUTORIAL_VERSION_KEY) ||
+                (preferences.getInt(TUTORIAL_VERSION_KEY, 0)) != TUTORIAL_CURRENT_VERSION) {
+            homeView.homeTutorialComponent().setVisibility(View.VISIBLE);
+            preferences.edit()
+                    .putInt(TUTORIAL_VERSION_KEY, TUTORIAL_CURRENT_VERSION)
+                    .apply();
+        }
     }
 
     private AppCompatActivity getActivity() {

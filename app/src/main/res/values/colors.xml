@@ -4,6 +4,9 @@
     <color name="accentColor">#870000</color>
     <color name="accentLightColor">#f9683a</color>
     <color name="black">#FF000000</color>
+
+    <color name="black_opacity">#90000000</color>
+
     <color name="white">#FFFFFFFF</color>
 
     <color name="splash_screen_background">#0E0D0D</color>

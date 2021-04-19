@@ -18,19 +18,19 @@
         android:text="@string/copy_map_current_location"
         android:textSize="@dimen/text_size_great"
         app:drawableEndCompat="@drawable/ic_baseline_content_copy_24"
+        app:layout_constraintBottom_toTopOf="@+id/text_input_layout_geolocation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_layout_lng"
+        android:id="@+id/text_input_layout_geolocation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_text"
         android:layout_marginTop="@dimen/custom_view_padding"
+        app:layout_constraintBottom_toTopOf="@+id/input_alert_error_msg"
         app:layout_constraintEnd_toStartOf="@+id/input_action_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_copy_map_target">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/text_input_geolocation"
@@ -43,16 +43,16 @@
     <ImageView
         android:id="@+id/input_action_button"
         android:layout_width="@dimen/home_button_size"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/home_button_size"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:contentDescription="@string/button_to_search"
         android:focusable="true"
         android:padding="@dimen/custom_view_padding"
         android:src="@drawable/ic_baseline_location_searching_24"
-        app:layout_constraintBottom_toBottomOf="@+id/text_input_layout_lng"
+        app:layout_constraintBottom_toBottomOf="@+id/text_input_layout_geolocation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_input_layout_lng" />
+        app:layout_constraintTop_toTopOf="@+id/text_input_layout_geolocation" />
 
     <TextView
         android:id="@+id/input_alert_error_msg"
@@ -64,8 +64,9 @@
         android:textColor="@android:color/holo_red_light"
         android:textSize="@dimen/inputs_textSize"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/input_action_button"
         tools:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

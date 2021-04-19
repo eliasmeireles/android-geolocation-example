@@ -45,6 +45,17 @@ public class MapOptionsComponent extends ConstraintLayout {
         optionsBinding.textViewCopyMapTarget.setOnClickListener(v -> delegate.clipCurrentGeolocation());
     }
 
+    public void setAsDemoOnly() {
+        optionsBinding.inputActionButton.setClickable(false);
+        optionsBinding.inputActionButton.setFocusable(false);
+        optionsBinding.textViewCopyMapTarget.setFocusable(false);
+        optionsBinding.textViewCopyMapTarget.setClickable(false);
+        optionsBinding.textInputGeolocation.setClickable(false);
+        optionsBinding.textInputGeolocation.setFocusable(false);
+        optionsBinding.textInputLayoutGeolocation.setFocusable(false);
+        optionsBinding.textInputLayoutGeolocation.setClickable(false);
+    }
+
     public void setDelegate(MapOptionDelegate delegate) {
         this.delegate = delegate;
     }
