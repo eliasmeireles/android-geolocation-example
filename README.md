@@ -9,4 +9,4 @@
 ### Baseado no Padrão Viper um pouco fora da curva.
 - [Créditos - VIPER in Android: The Practical Guide or How to Catch a Snake?](https://medium.com/omisoft/https-medium-com-omisoft-viper-in-android-the-practical-guide-or-how-to-catch-a-snake-78cc17e96d63)
 
-- ![Viper image assets](/assets/viper_image.png)
+![Viper image assets](/assets/viper_image.png)
